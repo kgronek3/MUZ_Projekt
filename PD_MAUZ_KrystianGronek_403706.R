@@ -119,8 +119,9 @@ legend(30, 1,
 
 ## Wykładniczy ####
 
+# 1
 {
-title_ = "Prawdopodobieństwo przeżycia t lat w zależności od wieku (x)\nosoby dla różnych wartości mu w rozkładzie wykładnicznym"
+title_ = "Prawdopodobieństwo przeżycia t lat dla różnych wartości\nmu w rozkładzie wykładnicznym"
 ylim_ = c(0,1)
 ylab_ = "Prawdopodobieństwo przeżycia t lat"
 xlab_ = "Dalsze trwanie życia (t)"
@@ -145,11 +146,11 @@ plot(Wykladniczy1, from = 0, to = 100,
 axis(1, at = c(0,5,10,20,30,40,50,60,70,80,90,100), 
      labels = c(0,5,10,20,30,40,50,60,70,80,90,100))
 title(title_)
-curve(Wykladniczy2,from = 0, 100, ylim = c(0,1), add = TRUE, col = colors[1], lwd = 2)
-curve(Wykladniczy3,from = 0, 100, ylim = c(0,1), add = TRUE, col = colors[2], lwd = 2)
-curve(Wykladniczy4,from = 0, 100, ylim = c(0,1), add = TRUE, col = colors[3], lwd = 2)
-curve(Wykladniczy5,from = 0, 100, ylim = c(0,1), add = TRUE, col = colors[4], lwd = 2)
-curve(Wykladniczy6,from = 0, 100, ylim = c(0,1), add = TRUE, col = colors[5], lwd = 2)
+curve(Wykladniczy2,from = 0, to = 100, ylim = c(0,1), add = TRUE, col = colors[1], lwd = 2)
+curve(Wykladniczy3,from = 0, to = 100, ylim = c(0,1), add = TRUE, col = colors[2], lwd = 2)
+curve(Wykladniczy4,from = 0, to = 100, ylim = c(0,1), add = TRUE, col = colors[3], lwd = 2)
+curve(Wykladniczy5,from = 0, to = 100, ylim = c(0,1), add = TRUE, col = colors[4], lwd = 2)
+curve(Wykladniczy6,from = 0, to = 100, ylim = c(0,1), add = TRUE, col = colors[5], lwd = 2)
 legend(80, 1, 
        legend = c(paste0("mu = ", mu1),
                   paste0("mu = ", mu2),
@@ -160,6 +161,52 @@ legend(80, 1,
        fill = c("black",colors[1],colors[2],colors[3],colors[4],colors[5]))
 }
 
+# 2
+{
+    title_ = "Prawdopodobieństwo przeżycia t lat w zależności od mu"
+    ylim_ = c(0,1)
+    ylab_ = "Prawdopodobieństwo przeżycia t lat"
+    xlab_ = "Wartość współczynnika wymieralności mu"
+
+    # dalsze trwanie życia x latka
+    dalsze_trwanie_zycia1 = 10
+    dalsze_trwanie_zycia2 = 20
+    dalsze_trwanie_zycia3 = 30
+    dalsze_trwanie_zycia4 = 40
+    dalsze_trwanie_zycia5 = 50
+    dalsze_trwanie_zycia6 = 60
+    
+    Wykladniczy1 <- function(mu) {wiek = dalsze_trwanie_zycia1; exp(-1 * mu * wiek)} 
+    Wykladniczy2 <- function(mu) {wiek = dalsze_trwanie_zycia2; exp(-1 * mu * wiek)} 
+    Wykladniczy3 <- function(mu) {wiek = dalsze_trwanie_zycia3; exp(-1 * mu * wiek)} 
+    Wykladniczy4 <- function(mu) {wiek = dalsze_trwanie_zycia4; exp(-1 * mu * wiek)} 
+    Wykladniczy5 <- function(mu) {wiek = dalsze_trwanie_zycia5; exp(-1 * mu * wiek)} 
+    Wykladniczy6 <- function(mu) {wiek = dalsze_trwanie_zycia6; exp(-1 * mu * wiek)} 
+    
+    plot(Wykladniczy1, from = 0, to = 0.15,
+         xaxt = "n", ylim = ylim_, lwd = 2,
+         type = "l", xlab = xlab_, ylab = ylab_, col = "black")
+    axis(1, at = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), 
+         labels = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))
+    title(title_)
+    curve(Wykladniczy2,from = 0, to = 1, ylim = c(0,1), add = TRUE, col = colors[1], lwd = 2)
+    curve(Wykladniczy3,from = 0, to = 1, ylim = c(0,1), add = TRUE, col = colors[2], lwd = 2)
+    curve(Wykladniczy4,from = 0, to = 1, ylim = c(0,1), add = TRUE, col = colors[3], lwd = 2)
+    curve(Wykladniczy5,from = 0, to = 1, ylim = c(0,1), add = TRUE, col = colors[4], lwd = 2)
+    curve(Wykladniczy6,from = 0, to = 1, ylim = c(0,1), add = TRUE, col = colors[5], lwd = 2)
+    legend(0.1, 1, 
+           legend = c(paste0("t = ", dalsze_trwanie_zycia1),
+                      paste0("t = ", dalsze_trwanie_zycia2),
+                      paste0("t = ", dalsze_trwanie_zycia3),
+                      paste0("t = ", dalsze_trwanie_zycia4),
+                      paste0("t = ", dalsze_trwanie_zycia5),
+                      paste0("t = ", dalsze_trwanie_zycia6)),
+           fill = c("black",colors[1],colors[2],colors[3],colors[4],colors[5]))
+}
+
+
+
+# 3 
 {
 title_ = "Prawdopodobieństwo przeżycia 1 roku dla różnych wartości\nomega w zależności od wieku osoby"
 ylim_ = c(0.6,1)
