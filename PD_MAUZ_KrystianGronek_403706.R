@@ -252,8 +252,119 @@ legend(80, 0.8,
 
 
 # ZADANIE 2 ####
+
+## de Moivre'a ####
+# JSN w ubezpieczeniu na życie 
+JSN_ż = function(i, n, omega, x) {
+    delta = log(1 + i) 
+    (1 - exp(-delta * n)) / (delta * (omega - x))
+}
+
+# JSN w ubezpieczeniu na dożycie 
+JSN_dż = function(i, n, omega, x) {
+    delta = log(1 + i) 
+    (exp(-delta * n) * (omega - x - n)) / (omega - x)
+}
+
+# JSN w ubezpieczeniu na życie i dożycie 
+JSN_żdż = function(i, n, omega, x) {
+    delta = log(1 + i) 
+    (1 - exp(-delta * n)) / (delta * (omega - x)) + (exp(-delta * n) * (omega - x - n)) / (omega - x)
+}
+
+
+
+
+## Wykładniczy ####
+# JSN w ubezpieczeniu na życie 
+JSN_ż = function(i, n, mu) {
+    delta = log(1 + i) 
+    ((1 - exp(-(delta + mu) * n)) * mu) / (delta + mu)
+}
+
+# JSN w ubezpieczeniu na dożycie 
+JSN_dż = function(i, n, mu) {
+    delta = log(1 + i) 
+    (exp(-(delta + mu) * n))
+}
+
+# JSN w ubezpieczeniu na życie i dożycie 
+JSN_żdż = function(i, n, mu) {
+    delta = log(1 + i) 
+    ((1 - exp(-(delta + mu) * n)) * mu) / (delta + mu) + (exp(-(delta + mu) * n))
+}
+
+
+
 # ZADANIE 3 ####
+
+## de Moivre'a ####
+# renta terminowa n-letnia
+renta_terminowa = function(i, n, omega, x) {
+    delta = log(1 + i) 
+    (1 - ((1 - exp(-delta * n)) / (delta * (omega - x)) + (exp(-delta * n) * (omega - x - n)) / (omega - x))) / delta
+}
+
+
+## Wykładniczy ####
+# renta terminowa n-letnia 
+renta_terminowa = function(i, n, mu) {
+    delta = log(1 + i) 
+    (1 - (((1 - exp(-(delta + mu) * n)) * mu) / (delta + mu) + (exp(-(delta + mu) * n)))) / delta
+}
+
+
+
 # ZADANIE 4 ####
+
+## de Moivre'a ####
+# Składka n-letnia na życie
+P_ż = function(i, n, omega, x) {
+    delta = log(1 + i) 
+    
+    (delta * ((1 - exp(-delta * n)) / (delta * (omega - x)))) * 
+        (1 - ((1 - exp(-delta * n)) / (delta * (omega - x)) + (exp(-delta * n) * (omega - x - n)) / (omega - x)))
+}
+# Składka n-letnia na dożycie 
+P_dż = function(i, n, omega, x) {
+    delta = log(1 + i) 
+    
+    (delta * ((exp(-delta * n) * (omega - x - n)) / (omega - x))) * 
+        (1 - ((1 - exp(-delta * n)) / (delta * (omega - x)) + (exp(-delta * n) * (omega - x - n)) / (omega - x)))
+}
+# Składka n-letnia na życie i dożycie
+P_żdż = function(i, n, omega, x) {
+    delta = log(1 + i) 
+    
+    (delta * ((1 - exp(-delta * n)) / (delta * (omega - x)) + (exp(-delta * n) * (omega - x - n)) / (omega - x))) * 
+        (1 - ((1 - exp(-delta * n)) / (delta * (omega - x)) + (exp(-delta * n) * (omega - x - n)) / (omega - x)))
+}
+
+
+## Wykładniczy ####
+# Składka n-letnia na życie
+P_ż = function(i, n, omega, x) {
+    delta = log(1 + i) 
+    
+    (delta * (((1 - exp(-(delta + mu) * n)) * mu) / (delta + mu))) * 
+        (1 - (((1 - exp(-(delta + mu) * n)) * mu) / (delta + mu) + (exp(-(delta + mu) * n))))
+}
+# Składka n-letnia na dożycie 
+P_dż = function(i, n, omega, x) {
+    delta = log(1 + i) 
+    
+    (delta * ((exp(-(delta + mu) * n)))) * 
+        (1 - (((1 - exp(-(delta + mu) * n)) * mu) / (delta + mu) + (exp(-(delta + mu) * n))))
+}
+# Składka n-letnia na życie i dożycie
+P_żdż = function(i, n, omega, x) {
+    delta = log(1 + i) 
+    
+    (delta * (((1 - exp(-(delta + mu) * n)) * mu) / (delta + mu) + (exp(-(delta + mu) * n)))) * 
+        (1 - (((1 - exp(-(delta + mu) * n)) * mu) / (delta + mu) + (exp(-(delta + mu) * n))))
+}
+
+
 # ZADANIE 5 ####
 
 
