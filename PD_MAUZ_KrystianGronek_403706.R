@@ -1191,3 +1191,440 @@ legend(80, 0.8,
 # ZADANIE 5 ####
 
 
+kpx = function(k, x, omega) {return( (omega - x - k) / (omega - x))}    
+qxk = function(k, x, omega) {return(  1 /  (omega - (x + k)) ) }
+
+## de Moivre'a ####
+# JSN w ubezpieczeniu na życie 
+JSN_ż = function(i, n, omega, x) {
+    suma = 0
+    v = (1 / (1 + i))
+
+    for(k_ in 0:n-1) {
+        suma = suma + v^(k_+1) * kpx(k_, x, omega) * qxk(k_, x, omega)
+    }
+
+    return(suma)
+}
+
+# JSN w ubezpieczeniu na dożycie 
+JSN_dż = function(i, n, omega, x) {
+    v = (1 / (1 + i))
+    
+    if (n >= omega - x){
+        return(NA)    
+    } else {
+        return(v^n * ((omega - x - n) / (omega - x)))
+    }
+}
+
+
+# JSN w ubezpieczeniu na życie i dożycie 
+JSN_żdż = function(i, n, omega, x) {
+    suma = 0
+    v = (1 / (1 + i))
+    
+    for(k_ in 0:n-1) {
+        suma = suma + v^(k_+1) * kpx(k_, x, omega) * qxk(k_, x, omega)
+    }
+    
+    # Dodawanie JSN z ubezpieczenia na życie
+    suma = suma + v^n * ((omega - x - n) / (omega - x))
+    
+    return(suma)
+}
+
+## de Moivre'a ####
+# renta terminowa n-letnia
+renta_terminowa = function(i, n, omega, x) {
+    d = i / (1 + i)
+    return( (1 - JSN_żdż(i, n, omega, x)) / d )
+}
+
+JSN_żdż(0.01, 1, 100, 60)
+renta_terminowa(0.01, 1, 100, 60)
+
+# Składka n-letnia na życie i dożycie
+P_żdż = function(i, n, omega, x) {
+    v = (1 / (1 + i))
+    
+    P = JSN_żdż(i, n, omega, x) / renta_terminowa(i, n, omega, x)
+    
+}
+
+# zmienne ogólne do obliczeń
+x_ = 60 # 60 latek
+
+#for (max_n in c(omega1 - x_, omega2 - x_, omega3 - x_, omega4 - x_)) 
+
+JSN_ż_wyniki_omega1 <- c()
+JSN_ż_wyniki_omega2 <- c()
+JSN_ż_wyniki_omega3 <- c()
+JSN_ż_wyniki_omega4 <- c()
+JSN_dż_wyniki_omega1 <- c()
+JSN_dż_wyniki_omega2 <- c()
+JSN_dż_wyniki_omega3 <- c()
+JSN_dż_wyniki_omega4 <- c()
+JSN_żdż_wyniki_omega1 <- c()
+JSN_żdż_wyniki_omega2 <- c()
+JSN_żdż_wyniki_omega3 <- c()
+JSN_żdż_wyniki_omega4 <- c()
+renta_terminowa_wyniki_omega1 <- c()
+renta_terminowa_wyniki_omega2 <- c()
+renta_terminowa_wyniki_omega3 <- c()
+renta_terminowa_wyniki_omega4 <- c()
+P_żdż_wyniki_omega1 <- c()
+P_żdż_wyniki_omega2 <- c()
+P_żdż_wyniki_omega3 <- c()
+P_żdż_wyniki_omega4 <- c()
+
+JSN_ż_wyniki_i1 <- c()
+JSN_ż_wyniki_i2 <- c()
+JSN_ż_wyniki_i3 <- c()
+JSN_ż_wyniki_i4 <- c()
+JSN_dż_wyniki_i1 <- c()
+JSN_dż_wyniki_i2 <- c()
+JSN_dż_wyniki_i3 <- c()
+JSN_dż_wyniki_i4 <- c()
+JSN_żdż_wyniki_i1 <- c()
+JSN_żdż_wyniki_i2 <- c()
+JSN_żdż_wyniki_i3 <- c()
+JSN_żdż_wyniki_i4 <- c()
+renta_terminowa_wyniki_i1 <- c()
+renta_terminowa_wyniki_i2 <- c()
+renta_terminowa_wyniki_i3 <- c()
+renta_terminowa_wyniki_i4 <- c()
+P_żdż_wyniki_i1 <- c()
+P_żdż_wyniki_i2 <- c()
+P_żdż_wyniki_i3 <- c()
+P_żdż_wyniki_i4 <- c()
+
+
+# Różne omegi
+i_ = 0.05 # stopa procentowa 
+omega1 = 100
+omega2 = 90
+omega3 = 80
+omega4 = 70
+for(n_ in 1:(omega1 - x_)) {
+    JSN_ż_wyniki_omega1 <- c(JSN_ż_wyniki_omega1, JSN_ż(i_,n_,omega1,x_))
+    JSN_ż_wyniki_omega2 <- c(JSN_ż_wyniki_omega2, JSN_ż(i_,n_,omega2,x_))
+    JSN_ż_wyniki_omega3 <- c(JSN_ż_wyniki_omega3, JSN_ż(i_,n_,omega3,x_))
+    JSN_ż_wyniki_omega4 <- c(JSN_ż_wyniki_omega4, JSN_ż(i_,n_,omega4,x_))
+    JSN_dż_wyniki_omega1 <- c(JSN_dż_wyniki_omega1, JSN_dż(i_,n_,omega1,x_))
+    JSN_dż_wyniki_omega2 <- c(JSN_dż_wyniki_omega2, JSN_dż(i_,n_,omega2,x_))
+    JSN_dż_wyniki_omega3 <- c(JSN_dż_wyniki_omega3, JSN_dż(i_,n_,omega3,x_))
+    JSN_dż_wyniki_omega4 <- c(JSN_dż_wyniki_omega4, JSN_dż(i_,n_,omega4,x_))
+    JSN_żdż_wyniki_omega1 <- c(JSN_żdż_wyniki_omega1, JSN_żdż(i_,n_,omega1,x_))
+    JSN_żdż_wyniki_omega2 <- c(JSN_żdż_wyniki_omega2, JSN_żdż(i_,n_,omega2,x_))
+    JSN_żdż_wyniki_omega3 <- c(JSN_żdż_wyniki_omega3, JSN_żdż(i_,n_,omega3,x_))
+    JSN_żdż_wyniki_omega4 <- c(JSN_żdż_wyniki_omega4, JSN_żdż(i_,n_,omega4,x_))
+    renta_terminowa_wyniki_omega1 <- c(renta_terminowa_wyniki_omega1, renta_terminowa(i_, n_, omega1, x_))
+    renta_terminowa_wyniki_omega2 <- c(renta_terminowa_wyniki_omega2, renta_terminowa(i_, n_, omega2, x_))
+    renta_terminowa_wyniki_omega3 <- c(renta_terminowa_wyniki_omega3, renta_terminowa(i_, n_, omega3, x_))
+    renta_terminowa_wyniki_omega4 <- c(renta_terminowa_wyniki_omega4, renta_terminowa(i_, n_, omega4, x_))
+    P_żdż_wyniki_omega1 <- c(P_żdż_wyniki_omega1, P_żdż(i_, n_, omega1, x_))
+    P_żdż_wyniki_omega2 <- c(P_żdż_wyniki_omega2, P_żdż(i_, n_, omega2, x_))
+    P_żdż_wyniki_omega3 <- c(P_żdż_wyniki_omega3, P_żdż(i_, n_, omega3, x_))
+    P_żdż_wyniki_omega4 <- c(P_żdż_wyniki_omega4, P_żdż(i_, n_, omega4, x_))
+}
+
+# Rózne stopy procentowe (i)
+omega_ = 100
+i1 = 0.03
+i2 = 0.05
+i3 = 0.10
+i4 = 0.20
+for(n_ in 1:(omega1 - x_)) {
+    JSN_ż_wyniki_i1 <- c(JSN_ż_wyniki_i1, JSN_ż(i1,n_,omega_,x_))
+    JSN_ż_wyniki_i2 <- c(JSN_ż_wyniki_i2, JSN_ż(i2,n_,omega_,x_))
+    JSN_ż_wyniki_i3 <- c(JSN_ż_wyniki_i3, JSN_ż(i3,n_,omega_,x_))
+    JSN_ż_wyniki_i4 <- c(JSN_ż_wyniki_i4, JSN_ż(i4,n_,omega_,x_))
+    JSN_dż_wyniki_i1 <- c(JSN_dż_wyniki_i1, JSN_dż(i1,n_,omega_,x_))
+    JSN_dż_wyniki_i2 <- c(JSN_dż_wyniki_i2, JSN_dż(i2,n_,omega_,x_))
+    JSN_dż_wyniki_i3 <- c(JSN_dż_wyniki_i3, JSN_dż(i3,n_,omega_,x_))
+    JSN_dż_wyniki_i4 <- c(JSN_dż_wyniki_i4, JSN_dż(i4,n_,omega_,x_))
+    JSN_żdż_wyniki_i1 <- c(JSN_żdż_wyniki_i1, JSN_żdż(i1,n_,omega_,x_))
+    JSN_żdż_wyniki_i2 <- c(JSN_żdż_wyniki_i2, JSN_żdż(i2,n_,omega_,x_))
+    JSN_żdż_wyniki_i3 <- c(JSN_żdż_wyniki_i3, JSN_żdż(i3,n_,omega_,x_))
+    JSN_żdż_wyniki_i4 <- c(JSN_żdż_wyniki_i4, JSN_żdż(i4,n_,omega_,x_))
+    renta_terminowa_wyniki_i1 <- c(renta_terminowa_wyniki_i1, renta_terminowa(i1, n_, omega_, x_))
+    renta_terminowa_wyniki_i2 <- c(renta_terminowa_wyniki_i2, renta_terminowa(i2, n_, omega_, x_))
+    renta_terminowa_wyniki_i3 <- c(renta_terminowa_wyniki_i3, renta_terminowa(i3, n_, omega_, x_))
+    renta_terminowa_wyniki_i4 <- c(renta_terminowa_wyniki_i4, renta_terminowa(i4, n_, omega_, x_))
+    P_żdż_wyniki_i1 <- c(P_żdż_wyniki_i1, P_żdż(i1, n_, omega_, x_))
+    P_żdż_wyniki_i2 <- c(P_żdż_wyniki_i2, P_żdż(i2, n_, omega_, x_))
+    P_żdż_wyniki_i3 <- c(P_żdż_wyniki_i3, P_żdż(i3, n_, omega_, x_))
+    P_żdż_wyniki_i4 <- c(P_żdż_wyniki_i4, P_żdż(i4, n_, omega_, x_))
+}
+
+
+plot(JSN_ż_wyniki_i1)
+points(JSN_ż_wyniki_i2)
+points(JSN_ż_wyniki_i3)
+points(JSN_ż_wyniki_i4)
+
+
+## Jednorazowe składki netto ####
+
+
+### Zależność od omega ####
+
+#### JSN - Na życie ####
+
+{
+    title_ = "Jednorazowa składka netto w ubezpieczeniu na życie dla 60 latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości omega\nw rozkładzie De Moivre z i = 0.05"
+    ylim_ = c(0,1)
+    ylab_ = "Wartość JSN"
+    xlab_ = "Okres ubezpieczenia (n)"
+    
+    plot(JSN_ż_wyniki_omega1,
+         xaxt = "n", ylim = ylim_, lwd = 2, pch = 1,
+         type = "p", xlab = xlab_, ylab = ylab_, col = "black")
+    axis(1, at =  c(1,5,10,20,30,40,50,60,70,80,90,100), 
+         labels = c(1,5,10,20,30,40,50,60,70,80,90,100))
+    title(title_)
+    points(JSN_ż_wyniki_omega2, col = colors[1], lwd = 2, pch = 2)
+    points(JSN_ż_wyniki_omega3, col = colors[2], lwd = 2, pch = 3)
+    points(JSN_ż_wyniki_omega4, col = colors[3], lwd = 2, pch = 4)
+    legend(30, 1, 
+           legend = c(paste0("omega = ", omega1),
+                      paste0("omega = ", omega2),
+                      paste0("omega = ", omega3),
+                      paste0("omega = ", omega4)),
+           col = c("black",colors[1],colors[2],colors[3]),
+           pch = c(1,2,3,4))
+}
+
+#### JSN - Na dożycie ####
+{
+    title_ = "Jednorazowa składka netto w ubezpieczeniu na dożycie dla 60 latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości omega\nw rozkładzie De Moivre z i = 0.05"
+    ylim_ = c(0,1)
+    ylab_ = "Wartość JSN"
+    xlab_ = "Okres ubezpieczenia (n)"
+    
+    plot(JSN_dż_wyniki_omega1,
+         xaxt = "n", ylim = ylim_, lwd = 2, pch = 1,
+         type = "p", xlab = xlab_, ylab = ylab_, col = "black")
+    axis(1, at =  c(1,5,10,20,30,40,50,60,70,80,90,100), 
+         labels = c(1,5,10,20,30,40,50,60,70,80,90,100))
+    title(title_)
+    points(JSN_dż_wyniki_omega2, col = colors[1], lwd = 2, pch = 2)
+    points(JSN_dż_wyniki_omega3, col = colors[2], lwd = 2, pch = 3)
+    points(JSN_dż_wyniki_omega4, col = colors[3], lwd = 2, pch = 4)
+    legend(10, 1, 
+           legend = c(paste0("omega = ", omega1),
+                      paste0("omega = ", omega2),
+                      paste0("omega = ", omega3),
+                      paste0("omega = ", omega4)),
+           col = c("black",colors[1],colors[2],colors[3]),
+           pch = c(1,2,3,4))
+}
+
+#### JSN - Na życie i dożycie ####
+{
+    title_ = "Jednorazowa składka netto w ubezpieczeniu na życie i dożycie dla 60 latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości omega\nw rozkładzie De Moivre z i = 0.05"
+    ylim_ = c(0,1)
+    ylab_ = "Wartość JSN"
+    xlab_ = "Okres ubezpieczenia (n)"
+    
+    plot(JSN_żdż_wyniki_omega1,
+         xaxt = "n", ylim = ylim_, lwd = 2, pch = 1,
+         type = "p", xlab = xlab_, ylab = ylab_, col = "black")
+    axis(1, at =  c(1,5,10,20,30,40,50,60,70,80,90,100), 
+         labels = c(1,5,10,20,30,40,50,60,70,80,90,100))
+    title(title_)
+    points(JSN_żdż_wyniki_omega2, col = colors[1], lwd = 2, pch = 2)
+    points(JSN_żdż_wyniki_omega3, col = colors[2], lwd = 2, pch = 3)
+    points(JSN_żdż_wyniki_omega4, col = colors[3], lwd = 2, pch = 4)
+    legend(0, 0.3, 
+           legend = c(paste0("omega = ", omega1),
+                      paste0("omega = ", omega2),
+                      paste0("omega = ", omega3),
+                      paste0("omega = ", omega4)),
+           col = c("black",colors[1],colors[2],colors[3]),
+           pch = c(1,2,3,4))
+}
+
+#### Renta terminowa ####
+{
+    title_ = "Wartość renty n-letniej dla 60 latka w zależności\nod długości okresu  (n) dla różnych wartości omega\nw rozkładzie De Moivre z i = 0.05"
+    ylim_ = NULL
+    ylab_ = "Wartość renty"
+    xlab_ = "Okres ubezpieczenia (n)"
+    
+    plot(renta_terminowa_wyniki_omega1,
+         xaxt = "n", ylim = ylim_, lwd = 2, pch = 1,
+         type = "p", xlab = xlab_, ylab = ylab_, col = "black")
+    axis(1, at =  c(1,5,10,20,30,40,50,60,70,80,90,100), 
+         labels = c(1,5,10,20,30,40,50,60,70,80,90,100))
+    title(title_)
+    points(renta_terminowa_wyniki_omega2, col = colors[1], lwd = 2, pch = 2)
+    points(renta_terminowa_wyniki_omega3, col = colors[2], lwd = 2, pch = 3)
+    points(renta_terminowa_wyniki_omega4, col = colors[3], lwd = 2, pch = 4)
+    legend(0, 10, 
+           legend = c(paste0("omega = ", omega1),
+                      paste0("omega = ", omega2),
+                      paste0("omega = ", omega3),
+                      paste0("omega = ", omega4)),
+           col = c("black",colors[1],colors[2],colors[3]),
+           pch = c(1,2,3,4))
+}
+
+#### Składka netto w ubezpieczeniu na życie i dożycie ####
+
+{
+    title_ = "Składka netto w ubezpieczeniu na życie i dożycie dla 60 latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości omega\nw rozkładzie De Moivre z i = 0.05"
+    ylim_ = NULL
+    ylab_ = "Wartość składki netto"
+    xlab_ = "Okres ubezpieczenia (n)"
+    
+    plot(P_żdż_wyniki_omega1,
+         xaxt = "n", ylim = ylim_, lwd = 2, pch = 1,
+         type = "p", xlab = xlab_, ylab = ylab_, col = "black")
+    axis(1, at =  c(1,5,10,20,30,40,50,60,70,80,90,100), 
+         labels = c(1,5,10,20,30,40,50,60,70,80,90,100))
+    title(title_)
+    points(P_żdż_wyniki_omega2, col = colors[1], lwd = 2, pch = 2)
+    points(P_żdż_wyniki_omega3, col = colors[2], lwd = 2, pch = 3)
+    points(P_żdż_wyniki_omega4, col = colors[3], lwd = 2, pch = 4)
+    legend(30, 7, 
+           legend = c(paste0("omega = ", omega1),
+                      paste0("omega = ", omega2),
+                      paste0("omega = ", omega3),
+                      paste0("omega = ", omega4)),
+           col = c("black",colors[1],colors[2],colors[3]),
+           pch = c(1,2,3,4))
+}
+
+
+
+### Zależność od stopy procentowej (i) ####
+
+#### JSN - Na życie ####
+
+{
+    title_ = "Jednorazowa składka netto w ubezpieczeniu na życie dla 60 latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości stopy procentowej\nw rozkładzie De Moivre dla omega = 100"
+    ylim_ = c(0,1)
+    ylab_ = "Wartość JSN"
+    xlab_ = "Okres ubezpieczenia (n)"
+    
+    plot(JSN_ż_wyniki_i1,
+         xaxt = "n", ylim = ylim_, lwd = 2, pch = 1,
+         type = "p", xlab = xlab_, ylab = ylab_, col = "black")
+    axis(1, at =  c(1,5,10,20,30,40,50,60,70,80,90,100), 
+         labels = c(1,5,10,20,30,40,50,60,70,80,90,100))
+    title(title_)
+    points(JSN_ż_wyniki_i2, col = colors[1], lwd = 2, pch = 2)
+    points(JSN_ż_wyniki_i3, col = colors[2], lwd = 2, pch = 3)
+    points(JSN_ż_wyniki_i4, col = colors[3], lwd = 2, pch = 4)
+    legend(10, 1, 
+           legend = c(paste0("i = ", i1),
+                      paste0("i = ", i2),
+                      paste0("i = ", i3),
+                      paste0("i = ", i4)),
+           col = c("black",colors[1],colors[2],colors[3]),
+           pch = c(1,2,3,4))
+}
+
+#### JSN - Na dożycie ####
+{
+    title_ = "Jednorazowa składka netto w ubezpieczeniu na dożycie dla 60 latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości stopy procentowej\nw rozkładzie De Moivre dla omega = 100"
+    ylim_ = c(0,1)
+    ylab_ = "Wartość JSN"
+    xlab_ = "Okres ubezpieczenia (n)"
+    
+    plot(JSN_dż_wyniki_i1,
+         xaxt = "n", ylim = ylim_, lwd = 2, pch = 1,
+         type = "p", xlab = xlab_, ylab = ylab_, col = "black")
+    axis(1, at =  c(1,5,10,20,30,40,50,60,70,80,90,100), 
+         labels = c(1,5,10,20,30,40,50,60,70,80,90,100))
+    title(title_)
+    points(JSN_dż_wyniki_i2, col = colors[1], lwd = 2, pch = 2)
+    points(JSN_dż_wyniki_i3, col = colors[2], lwd = 2, pch = 3)
+    points(JSN_dż_wyniki_i4, col = colors[3], lwd = 2, pch = 4)
+    legend(10, 1, 
+           legend = c(paste0("i = ", i1),
+                      paste0("i = ", i2),
+                      paste0("i = ", i3),
+                      paste0("i = ", i4)),
+           col = c("black",colors[1],colors[2],colors[3]),
+           pch = c(1,2,3,4))
+}
+
+#### JSN - Na życie i dożycie ####
+{
+    title_ = "Jednorazowa składka netto w ubezpieczeniu na życie i dożycie dla 60 latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości stopy procentowej\nw rozkładzie De Moivre dla omega = 100"
+    ylim_ = c(0,1)
+    ylab_ = "Wartość JSN"
+    xlab_ = "Okres ubezpieczenia (n)"
+    
+    plot(JSN_żdż_wyniki_i1,
+         xaxt = "n", ylim = ylim_, lwd = 2, pch = 1,
+         type = "p", xlab = xlab_, ylab = ylab_, col = "black")
+    axis(1, at =  c(1,5,10,20,30,40,50,60,70,80,90,100), 
+         labels = c(1,5,10,20,30,40,50,60,70,80,90,100))
+    title(title_)
+    points(JSN_żdż_wyniki_i2, col = colors[1], lwd = 2, pch = 2)
+    points(JSN_żdż_wyniki_i3, col = colors[2], lwd = 2, pch = 3)
+    points(JSN_żdż_wyniki_i4, col = colors[3], lwd = 2, pch = 4)
+    legend(0, 0.3, 
+           legend = c(paste0("i = ", i1),
+                      paste0("i = ", i2),
+                      paste0("i = ", i3),
+                      paste0("i = ", i4)),
+           col = c("black",colors[1],colors[2],colors[3]),
+           pch = c(1,2,3,4))
+}
+
+#### Renta terminowa ####
+{
+    title_ = "Wartość renty n-letniej dla 60 latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości stopy procentowej\nw rozkładzie De Moivre dla omega = 100"
+    ylim_ = NULL
+    ylab_ = "Wartość renty"
+    xlab_ = "Okres ubezpieczenia (n)"
+    
+    plot(renta_terminowa_wyniki_i1,
+         xaxt = "n", ylim = ylim_, lwd = 2, pch = 1,
+         type = "p", xlab = xlab_, ylab = ylab_, col = "black")
+    axis(1, at =  c(1,5,10,20,30,40,50,60,70,80,90,100), 
+         labels = c(1,5,10,20,30,40,50,60,70,80,90,100))
+    title(title_)
+    points(renta_terminowa_wyniki_i2, col = colors[1], lwd = 2, pch = 2)
+    points(renta_terminowa_wyniki_i3, col = colors[2], lwd = 2, pch = 3)
+    points(renta_terminowa_wyniki_i4, col = colors[3], lwd = 2, pch = 4)
+    legend(0, 12, 
+           legend = c(paste0("i = ", i1),
+                      paste0("i = ", i2),
+                      paste0("i = ", i3),
+                      paste0("i = ", i4)),
+           col = c("black",colors[1],colors[2],colors[3]),
+           pch = c(1,2,3,4))
+}
+
+#### Składka netto w ubezpieczeniu na życie i dożycie ####
+
+{
+    title_ = "Składka netto w ubezpieczeniu na życie i dożycie dla 60 latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości stopy procentowej\nw rozkładzie De Moivre dla omega = 100"
+    ylim_ = NULL
+    ylab_ = "Wartość składki netto"
+    xlab_ = "Okres ubezpieczenia (n)"
+    
+    plot(P_żdż_wyniki_i1,
+         xaxt = "n", ylim = ylim_, lwd = 2, pch = 1,
+         type = "p", xlab = xlab_, ylab = ylab_, col = "black")
+    axis(1, at =  c(1,5,10,20,30,40,50,60,70,80,90,100), 
+         labels = c(1,5,10,20,30,40,50,60,70,80,90,100))
+    title(title_)
+    points(P_żdż_wyniki_i2, col = colors[1], lwd = 2, pch = 2)
+    points(P_żdż_wyniki_i3, col = colors[2], lwd = 2, pch = 3)
+    points(P_żdż_wyniki_i4, col = colors[3], lwd = 2, pch = 4)
+    legend(30, 7, 
+           legend = c(paste0("i = ", i1),
+                      paste0("i = ", i2),
+                      paste0("i = ", i3),
+                      paste0("i = ", i4)),
+           col = c("black",colors[1],colors[2],colors[3]),
+           pch = c(1,2,3,4))
+}
+
