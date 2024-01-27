@@ -488,7 +488,7 @@ legend(80, 0.8,
 ### Różne mu w zależności od (n) ####
 
 {
-    title_ = "Wartość JSN w ubezpieczeniu na życie dla 60 latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości mu\nw rozkładzie wykładnicznym"
+    title_ = "Wartość JSN w ubezpieczeniu na życie dla x latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości mu\nw rozkładzie wykładnicznym"
     ylim_ = c(0,1)
     ylab_ = "Wartość JSN"
     xlab_ = "Okres ubezpieczenia (n)"
@@ -533,7 +533,7 @@ legend(80, 0.8,
 }
 
 {
-    title_ = "Wartość JSN w ubezpieczeniu na dożycie dla 60 latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości mu\nw rozkładzie wykładnicznym"
+    title_ = "Wartość JSN w ubezpieczeniu na dożycie dla x latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości mu\nw rozkładzie wykładnicznym"
     ylim_ = c(0,1)
     ylab_ = "Wartość JSN"
     xlab_ = "Okres ubezpieczenia (n)"
@@ -581,7 +581,7 @@ legend(80, 0.8,
 
 
 {
-    title_ = "Wartość JSN w ubezpieczeniu na życie i dożycie dla 60 latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości mu\nw rozkładzie wykładnicznym"
+    title_ = "Wartość JSN w ubezpieczeniu na życie i dożycie dla x latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości mu\nw rozkładzie wykładnicznym"
     ylim_ = c(0,1)
     ylab_ = "Wartość JSN"
     xlab_ = "Okres ubezpieczenia (n)"
@@ -627,7 +627,7 @@ legend(80, 0.8,
 
 ### Różna stopa procentowa (i) w zależności od (n) ####
 {
-    title_ = "Wartość JSN w ubezpieczeniu na życie dla 60 latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości stopy procentowej\nw rozkładzie wykładnicznym z mu = 0.05"
+    title_ = "Wartość JSN w ubezpieczeniu na życie dla x latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości stopy procentowej\nw rozkładzie wykładnicznym z mu = 0.05"
     ylim_ = c(0,1)
     ylab_ = "Wartość JSN"
     xlab_ = "Okres ubezpieczenia (n)"
@@ -665,7 +665,7 @@ legend(80, 0.8,
 }
 
 {
-    title_ = "Wartość JSN w ubezpieczeniu na dożycie dla 60 latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości stopy procentowej\nw rozkładzie wykładnicznym z mu = 0.05"
+    title_ = "Wartość JSN w ubezpieczeniu na dożycie dla x latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości stopy procentowej\nw rozkładzie wykładnicznym z mu = 0.05"
     ylim_ = c(0,1)
     ylab_ = "Wartość JSN"
     xlab_ = "Okres ubezpieczenia (n)"
@@ -703,7 +703,7 @@ legend(80, 0.8,
 }
 
 {
-    title_ = "Wartość JSN w ubezpieczeniu na życie i dożycie dla 60 latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości stopy procentowej\nw rozkładzie wykładnicznym z mu = 0.05"
+    title_ = "Wartość JSN w ubezpieczeniu na życie i dożycie dla x latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości stopy procentowej\nw rozkładzie wykładnicznym z mu = 0.05"
     ylim_ = c(0,1)
     ylab_ = "Wartość JSN"
     xlab_ = "Okres ubezpieczenia (n)"
@@ -744,21 +744,171 @@ legend(80, 0.8,
 # ZADANIE 3 ####
 
 ## de Moivre'a ####
-# renta terminowa n-letnia
-renta_terminowa = function(i, n, omega, x) {
-    delta = log(1 + i) 
-    (1 - ((1 - exp(-delta * n)) / (delta * (omega - x)) + (exp(-delta * n) * (omega - x - n)) / (omega - x))) / delta
+
+### Różne omega w zależności od (n) ####
+
+{
+    title_ = "Wartość obecna aktuarialnej renty terminowej n-letniej dla 60 latka w zależności\nod długości okresu składkowania (n) dla różnych wartości omega\nw rozkładzie De Moivre"
+    ylim_ = c(0,1)
+    ylab_ = "Wartość renty"
+    xlab_ = "Okres ubezpieczenia (n)"
+    
+    i_ = 0.05
+    x_ = 60
+    n_ = 40
+    omega1 = 100
+    omega2 = 90
+    omega3 = 80
+    omega4 = 70
+    
+    renta_terminowa_omega1 = function(n) {x = x_; i = i_; omega = omega1;(1 - ((1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x))) / log(1 + i)}
+    renta_terminowa_omega2 = function(n) {x = x_; i = i_; omega = omega2;(1 - ((1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x))) / log(1 + i)}
+    renta_terminowa_omega3 = function(n) {x = x_; i = i_; omega = omega3;(1 - ((1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x))) / log(1 + i)}
+    renta_terminowa_omega4 = function(n) {x = x_; i = i_; omega = omega4;(1 - ((1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x))) / log(1 + i)}
+    
+    plot(renta_terminowa_omega1, from = 0, to = omega1 - x_,
+         xaxt = "n", ylim = NULL, lwd = 2,
+         type = "l", xlab = xlab_, ylab = ylab_, col = "black")
+    axis(1, at = c(0,5,10,20,30,40,50,60,70,80,90,100), 
+         labels = c(0,5,10,20,30,40,50,60,70,80,90,100))
+    title(title_)
+    curve(renta_terminowa_omega2,from = 0, to = omega2 - x_, add = TRUE, col = colors[1], lwd = 2,)
+    curve(renta_terminowa_omega3,from = 0, to = omega3 - x_, add = TRUE, col = colors[2], lwd = 2,)
+    curve(renta_terminowa_omega4,from = 0, to = omega4 - x_, add = TRUE, col = colors[3], lwd = 2,)
+    legend(0, 10, 
+           legend = c(paste0("omega = ", omega1),
+                      paste0("omega = ", omega2),
+                      paste0("omega = ", omega3),
+                      paste0("omega = ", omega4)),
+           fill = c("black",colors[1],colors[2],colors[3]))
+}
+
+### Różne i w zależności od (n) ####
+
+{
+    title_ = "Wartość obecna aktuarialnej renty terminowej n-letniej dla 60 latka w zależności\nod długości okresu składkowania (n) dla różnych wartości stopy procentowej (i)\nw rozkładzie De Moivre z omega = 100"
+    ylim_ = c(0,1)
+    ylab_ = "Wartość renty"
+    xlab_ = "Okres ubezpieczenia (n)"
+    
+    i_ = 0.05
+    x_ = 60
+    n_ = 40
+    omega_ = 100
+    i1 = 0.01
+    i2 = 0.05
+    i3 = 0.10
+    i4 = 0.20
+    
+    renta_terminowa_i1 = function(n) {x = x_; i = i1; omega = omega_;(1 - ((1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x))) / log(1 + i)}
+    renta_terminowa_i2 = function(n) {x = x_; i = i2; omega = omega_;(1 - ((1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x))) / log(1 + i)}
+    renta_terminowa_i3 = function(n) {x = x_; i = i3; omega = omega_;(1 - ((1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x))) / log(1 + i)}
+    renta_terminowa_i4 = function(n) {x = x_; i = i4; omega = omega_;(1 - ((1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x))) / log(1 + i)}
+    
+    plot(renta_terminowa_i1, from = 0, to = omega_ - x_,
+         xaxt = "n", ylim = NULL, lwd = 2,
+         type = "l", xlab = xlab_, ylab = ylab_, col = "black")
+    axis(1, at = c(0,5,10,20,30,40,50,60,70,80,90,100), 
+         labels = c(0,5,10,20,30,40,50,60,70,80,90,100))
+    title(title_)
+    curve(renta_terminowa_i2,from = 0, to = omega_ - x_, add = TRUE, col = colors[1], lwd = 2,)
+    curve(renta_terminowa_i3,from = 0, to = omega_ - x_, add = TRUE, col = colors[2], lwd = 2,)
+    curve(renta_terminowa_i4,from = 0, to = omega_ - x_, add = TRUE, col = colors[3], lwd = 2,)
+    legend(0, 15, 
+           legend = c(paste0("i = ", i1),
+                      paste0("i = ", i2),
+                      paste0("i = ", i3),
+                      paste0("i = ", i4)),
+           fill = c("black",colors[1],colors[2],colors[3]))
 }
 
 
 ## Wykładniczy ####
-# renta terminowa n-letnia 
-renta_terminowa = function(i, n, mu) {
-    delta = log(1 + i) 
-    (1 - (((1 - exp(-(delta + mu) * n)) * mu) / (delta + mu) + (exp(-(delta + mu) * n)))) / delta
+
+### Różne mu w zależności od (n) ####
+
+{
+    title_ = "Wartość obecna aktuarialnej renty terminowej n-letniej dla x latka w zależności\nod długości okresu składkowania (n) dla różnych wartości mu\nw rozkładzie wykładnicznym"
+    ylim_ = c(0,1)
+    ylab_ = "Wartość renty"
+    xlab_ = "Okres ubezpieczenia (n)"
+    
+    i_ = 0.05
+    x_ = 60
+    n_ = 40
+    mu1 = 0.01
+    mu2 = 0.02
+    mu3 = 0.04
+    mu4 = 0.06
+    mu5 = 0.08
+    mu6 = 0.10
+    
+    renta_terminowa_mu1 = function(n) {i = i_; mu = mu1; (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n)))) / log(1 + i)}
+    renta_terminowa_mu2 = function(n) {i = i_; mu = mu2; (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n)))) / log(1 + i)}
+    renta_terminowa_mu3 = function(n) {i = i_; mu = mu3; (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n)))) / log(1 + i)}
+    renta_terminowa_mu4 = function(n) {i = i_; mu = mu4; (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n)))) / log(1 + i)}
+    renta_terminowa_mu5 = function(n) {i = i_; mu = mu5; (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n)))) / log(1 + i)}
+    renta_terminowa_mu6 = function(n) {i = i_; mu = mu6; (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n)))) / log(1 + i)}
+    
+    plot(renta_terminowa_mu1, from = 0, to = n_,
+         xaxt = "n", ylim = NULL, lwd = 2,
+         type = "l", xlab = xlab_, ylab = ylab_, col = "black")
+    axis(1, at = c(0,5,10,20,30,40,50,60,70,80,90,100), 
+         labels = c(0,5,10,20,30,40,50,60,70,80,90,100))
+    title(title_)
+    curve(renta_terminowa_mu2,from = 0, to = n_, add = TRUE, col = colors[1], lwd = 2,)
+    curve(renta_terminowa_mu3,from = 0, to = n_, add = TRUE, col = colors[2], lwd = 2,)
+    curve(renta_terminowa_mu4,from = 0, to = n_, add = TRUE, col = colors[3], lwd = 2,)
+    curve(renta_terminowa_mu5,from = 0, to = n_, add = TRUE, col = colors[4], lwd = 2,)
+    curve(renta_terminowa_mu6,from = 0, to = n_, add = TRUE, col = colors[5], lwd = 2,)
+    legend(0, 15, 
+           legend = c(paste0("mu = ", mu1),
+                      paste0("mu = ", mu2),
+                      paste0("mu = ", mu3),
+                      paste0("mu = ", mu4),
+                      paste0("mu = ", mu5),
+                      paste0("mu = ", mu6)),
+           fill = c("black",colors[1],colors[2],colors[3],colors[4],colors[5]))
 }
 
+### Różne i w zależności od (n) ####
 
+{
+    title_ = "Wartość obecna aktuarialnej renty terminowej n-letniej dla x latka w zależności\nod długości okresu składkowania (n) dla różnych wartości stopy procentowej (i)\nw rozkładzie wykładnicznym z mu = 0.05"
+    ylim_ = c(0,1)
+    ylab_ = "Wartość renty"
+    xlab_ = "Okres ubezpieczenia (n)"
+    
+    i_ = 0.05
+    x_ = 60
+    n_ = 40
+    mu_ = 0.05
+    i1 = 0.01
+    i2 = 0.05
+    i3 = 0.10
+    i4 = 0.20
+    
+    renta_terminowa_i1 = function(n) {i = i1; mu = mu_; (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n)))) / log(1 + i)}
+    renta_terminowa_i2 = function(n) {i = i2; mu = mu_; (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n)))) / log(1 + i)}
+    renta_terminowa_i3 = function(n) {i = i3; mu = mu_; (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n)))) / log(1 + i)}
+    renta_terminowa_i4 = function(n) {i = i4; mu = mu_; (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n)))) / log(1 + i)}
+    
+    plot(renta_terminowa_i1, from = 0, to = n_,
+         xaxt = "n", ylim = NULL, lwd = 2,
+         type = "l", xlab = xlab_, ylab = ylab_, col = "black")
+    axis(1, at = c(0,5,10,20,30,40,50,60,70,80,90,100), 
+         labels = c(0,5,10,20,30,40,50,60,70,80,90,100))
+    title(title_)
+    curve(renta_terminowa_i2,from = 0, to = n_, add = TRUE, col = colors[1], lwd = 2,)
+    curve(renta_terminowa_i3,from = 0, to = n_, add = TRUE, col = colors[2], lwd = 2,)
+    curve(renta_terminowa_i4,from = 0, to = n_, add = TRUE, col = colors[3], lwd = 2,)
+    legend(0, 15, 
+           legend = c(paste0("i = ", i1),
+                      paste0("i = ", i2),
+                      paste0("i = ", i3),
+                      paste0("i = ", i4)),
+           fill = c("black",colors[1],colors[2],colors[3]))
+}
 
 # ZADANIE 4 ####
 
