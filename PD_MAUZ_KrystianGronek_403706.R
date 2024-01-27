@@ -1241,9 +1241,6 @@ renta_terminowa = function(i, n, omega, x) {
     return( (1 - JSN_żdż(i, n, omega, x)) / d )
 }
 
-JSN_żdż(0.01, 1, 100, 60)
-renta_terminowa(0.01, 1, 100, 60)
-
 # Składka n-letnia na życie i dożycie
 P_żdż = function(i, n, omega, x) {
     v = (1 / (1 + i))
@@ -1357,12 +1354,6 @@ for(n_ in 1:(omega1 - x_)) {
     P_żdż_wyniki_i3 <- c(P_żdż_wyniki_i3, P_żdż(i3, n_, omega_, x_))
     P_żdż_wyniki_i4 <- c(P_żdż_wyniki_i4, P_żdż(i4, n_, omega_, x_))
 }
-
-
-plot(JSN_ż_wyniki_i1)
-points(JSN_ż_wyniki_i2)
-points(JSN_ż_wyniki_i3)
-points(JSN_ż_wyniki_i4)
 
 
 ## Jednorazowe składki netto ####
