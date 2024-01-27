@@ -253,9 +253,7 @@ legend(80, 0.8,
 
 # ZADANIE 2 ####
 
-
-
-## Wartości JSN w rozkładzie De Moivre zależności od omega dla różnych ubezpieczeń ####
+##  de Moivre'a ####
 
 ### Różne omega w zależności od (n) ####
 
@@ -748,7 +746,7 @@ legend(80, 0.8,
 ### Różne omega w zależności od (n) ####
 
 {
-    title_ = "Wartość obecna aktuarialnej renty terminowej n-letniej dla 60 latka w zależności\nod długości okresu składkowania (n) dla różnych wartości omega\nw rozkładzie De Moivre"
+    title_ = "Wartość obecna aktuarialnej renty terminowej n-letniej dla 60 latka w zależności\nod długości okresu składkowania (n) dla różnych wartości omega\nw rozkładzie De Moivre z i = 0.05"
     ylim_ = c(0,1)
     ylab_ = "Wartość renty"
     xlab_ = "Okres ubezpieczenia (n)"
@@ -828,7 +826,7 @@ legend(80, 0.8,
 ### Różne mu w zależności od (n) ####
 
 {
-    title_ = "Wartość obecna aktuarialnej renty terminowej n-letniej dla x latka w zależności\nod długości okresu składkowania (n) dla różnych wartości mu\nw rozkładzie wykładnicznym"
+    title_ = "Wartość obecna aktuarialnej renty terminowej n-letniej dla x latka w zależności\nod długości okresu składkowania (n) dla różnych wartości mu\nw rozkładzie wykładnicznym z i = 0.05"
     ylim_ = c(0,1)
     ylab_ = "Wartość renty"
     xlab_ = "Okres ubezpieczenia (n)"
@@ -913,54 +911,283 @@ legend(80, 0.8,
 # ZADANIE 4 ####
 
 ## de Moivre'a ####
-# Składka n-letnia na życie
-P_ż = function(i, n, omega, x) {
-    delta = log(1 + i) 
+
+### Różne omega w zależności od (n) ####
+
+{
+    title_ = "Składka netto w ubezpieczeniu na życie i dożycie dla x latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości omega\nw rozkładzie De Moivre dla i = 0.05"
+    ylim_ = c(0,1)
+    ylab_ = "Wartość składki netto"
+    xlab_ = "Okres ubezpieczenia (n)"
     
-    (delta * ((1 - exp(-delta * n)) / (delta * (omega - x)))) * 
-        (1 - ((1 - exp(-delta * n)) / (delta * (omega - x)) + (exp(-delta * n) * (omega - x - n)) / (omega - x)))
+    i_ = 0.05
+    x_ = 60
+    omega1 = 100
+    omega2 = 90
+    omega3 = 80
+    omega4 = 70
+    
+    JSN_żdż_omega1 = function(n) {i = i_; x = x_; omega = omega1; (1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x)}
+    JSN_żdż_omega2 = function(n) {i = i_; x = x_; omega = omega2; (1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x)}
+    JSN_żdż_omega3 = function(n) {i = i_; x = x_; omega = omega3; (1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x)}
+    JSN_żdż_omega4 = function(n) {i = i_; x = x_; omega = omega4; (1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x)}
+    
+    renta_terminowa_omega1 = function(n) {x = x_; i = i_; omega = omega1;(1 - ((1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x))) / log(1 + i)}
+    renta_terminowa_omega2 = function(n) {x = x_; i = i_; omega = omega2;(1 - ((1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x))) / log(1 + i)}
+    renta_terminowa_omega3 = function(n) {x = x_; i = i_; omega = omega3;(1 - ((1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x))) / log(1 + i)}
+    renta_terminowa_omega4 = function(n) {x = x_; i = i_; omega = omega4;(1 - ((1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x))) / log(1 + i)}
+    
+    P_żdż_omega1 = function(n) {JSN_żdż_omega1(n) / renta_terminowa_omega1(n)}
+    P_żdż_omega2 = function(n) {JSN_żdż_omega2(n) / renta_terminowa_omega2(n)}
+    P_żdż_omega3 = function(n) {JSN_żdż_omega3(n) / renta_terminowa_omega3(n)}
+    P_żdż_omega4 = function(n) {JSN_żdż_omega4(n) / renta_terminowa_omega4(n)}
+    
+    plot(P_żdż_omega1, from = 0, to = omega1 - x_,
+         xaxt = "n", ylim = ylim_, lwd = 2,
+         type = "l", xlab = xlab_, ylab = ylab_, col = "black")
+    axis(1, at = c(0,1,2,5,10,20,30,40,50,60,70,80,90,100), 
+         labels = c(0,1,2,5,10,20,30,40,50,60,70,80,90,100))
+    title(title_)
+    curve(P_żdż_omega2,from = 0, to = omega2 - x_, add = TRUE, col = colors[1], lwd = 2,)
+    curve(P_żdż_omega3,from = 0, to = omega3 - x_, add = TRUE, col = colors[2], lwd = 2,)
+    curve(P_żdż_omega4,from = 0, to = omega4 - x_, add = TRUE, col = colors[3], lwd = 2,)
+    legend(10, 1, 
+           legend = c(paste0("omega = ", omega1),
+                      paste0("omega = ", omega2),
+                      paste0("omega = ", omega3),
+                      paste0("omega = ", omega4)),
+           fill = c("black",colors[1],colors[2],colors[3]))
 }
-# Składka n-letnia na dożycie 
-P_dż = function(i, n, omega, x) {
-    delta = log(1 + i) 
+
+{
+    title_ = "Składka netto w ubezpieczeniu na życie i dożycie dla x latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości stopy procentowej (i)\nw rozkładzie De Moivre dla omega = 100"
+    ylim_ = c(0,1)
+    ylab_ = "Wartość składki netto"
+    xlab_ = "Okres ubezpieczenia (n)"
     
-    (delta * ((exp(-delta * n) * (omega - x - n)) / (omega - x))) * 
-        (1 - ((1 - exp(-delta * n)) / (delta * (omega - x)) + (exp(-delta * n) * (omega - x - n)) / (omega - x)))
-}
-# Składka n-letnia na życie i dożycie
-P_żdż = function(i, n, omega, x) {
-    delta = log(1 + i) 
+    x_ = 60
+    omega_ = 100
+    i1 = 0.01
+    i2 = 0.05
+    i3 = 0.10
+    i4 = 0.20
     
-    (delta * ((1 - exp(-delta * n)) / (delta * (omega - x)) + (exp(-delta * n) * (omega - x - n)) / (omega - x))) * 
-        (1 - ((1 - exp(-delta * n)) / (delta * (omega - x)) + (exp(-delta * n) * (omega - x - n)) / (omega - x)))
+    JSN_żdż_i1 = function(n) {i = i1; x = x_; omega = omega_; (1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x)}
+    JSN_żdż_i2 = function(n) {i = i1; x = x_; omega = omega_; (1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x)}
+    JSN_żdż_i3 = function(n) {i = i1; x = x_; omega = omega_; (1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x)}
+    JSN_żdż_i4 = function(n) {i = i1; x = x_; omega = omega_; (1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x)}
+    
+    renta_terminowa_i1 = function(n) {x = x_; i = i1; omega = omega_;(1 - ((1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x))) / log(1 + i)}
+    renta_terminowa_i2 = function(n) {x = x_; i = i2; omega = omega_;(1 - ((1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x))) / log(1 + i)}
+    renta_terminowa_i3 = function(n) {x = x_; i = i3; omega = omega_;(1 - ((1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x))) / log(1 + i)}
+    renta_terminowa_i4 = function(n) {x = x_; i = i4; omega = omega_;(1 - ((1 - exp(-log(1 + i) * n)) / (log(1 + i) * (omega - x)) + (exp(-log(1 + i) * n) * (omega - x - n)) / (omega - x))) / log(1 + i)}
+    
+    P_żdż_i1 = function(n) {JSN_żdż_i1(n) / renta_terminowa_i1(n)}
+    P_żdż_i2 = function(n) {JSN_żdż_i2(n) / renta_terminowa_i2(n)}
+    P_żdż_i3 = function(n) {JSN_żdż_i3(n) / renta_terminowa_i3(n)}
+    P_żdż_i4 = function(n) {JSN_żdż_i4(n) / renta_terminowa_i4(n)}
+    
+    plot(P_żdż_i1, from = 0, to = omega1 - x_,
+         xaxt = "n", ylim = ylim_, lwd = 2,
+         type = "l", xlab = xlab_, ylab = ylab_, col = "black")
+    axis(1, at = c(0,1,2,5,10,20,30,40,50,60,70,80,90,100), 
+         labels = c(0,1,2,5,10,20,30,40,50,60,70,80,90,100))
+    title(title_)
+    curve(P_żdż_i2,from = 0, to = omega2 - x_, add = TRUE, col = colors[1], lwd = 2,)
+    curve(P_żdż_i3,from = 0, to = omega3 - x_, add = TRUE, col = colors[2], lwd = 2,)
+    curve(P_żdż_i4,from = 0, to = omega4 - x_, add = TRUE, col = colors[3], lwd = 2,)
+    legend(10, 1, 
+           legend = c(paste0(" = ", omega1),
+                      paste0(" = ", omega2),
+                      paste0(" = ", omega3),
+                      paste0(" = ", omega4)),
+           fill = c("black",colors[1],colors[2],colors[3]))
 }
 
 
 ## Wykładniczy ####
-# Składka n-letnia na życie
-P_ż = function(i, n, omega, x) {
-    delta = log(1 + i) 
+
+
+# Tylko na dożycie i życie bo tylko na życie lub tylko na dożycie stałe
+{
+    title_ = "Składka netto w ubezpieczeniu na życie dla x latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości mu\nw rozkładzie wykładnicznym"
+    ylab_ = "Wartość składki netto"
+    xlab_ = "Okres ubezpieczenia (n)"
     
-    (delta * (((1 - exp(-(delta + mu) * n)) * mu) / (delta + mu))) * 
-        (1 - (((1 - exp(-(delta + mu) * n)) * mu) / (delta + mu) + (exp(-(delta + mu) * n))))
-}
-# Składka n-letnia na dożycie 
-P_dż = function(i, n, omega, x) {
-    delta = log(1 + i) 
+    i_ = 0.05
+    x_ = 20
+    n_ = 20
+    mu1 = 0.01
+    mu2 = 0.02
+    mu3 = 0.04
+    mu4 = 0.06
+    mu5 = 0.08
+    mu6 = 0.10
     
-    (delta * ((exp(-(delta + mu) * n)))) * 
-        (1 - (((1 - exp(-(delta + mu) * n)) * mu) / (delta + mu) + (exp(-(delta + mu) * n))))
-}
-# Składka n-letnia na życie i dożycie
-P_żdż = function(i, n, omega, x) {
-    delta = log(1 + i) 
+    P_ż_mu1 = function(n) {i = i_; x = x_; mu = mu1; (log(1 + i) * (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu))) / (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n))))}
+    P_ż_mu2 = function(n) {i = i_; x = x_; mu = mu2; (log(1 + i) * (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu))) / (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n))))}
+    P_ż_mu3 = function(n) {i = i_; x = x_; mu = mu3; (log(1 + i) * (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu))) / (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n))))}
+    P_ż_mu4 = function(n) {i = i_; x = x_; mu = mu4; (log(1 + i) * (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu))) / (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n))))}
+    P_ż_mu5 = function(n) {i = i_; x = x_; mu = mu5; (log(1 + i) * (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu))) / (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n))))}
+    P_ż_mu6 = function(n) {i = i_; x = x_; mu = mu6; (log(1 + i) * (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu))) / (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n))))}
     
-    (delta * (((1 - exp(-(delta + mu) * n)) * mu) / (delta + mu) + (exp(-(delta + mu) * n)))) * 
-        (1 - (((1 - exp(-(delta + mu) * n)) * mu) / (delta + mu) + (exp(-(delta + mu) * n))))
+    
+    ylim_ = c(-0.05 + min(P_ż_mu1(n_),
+                          P_ż_mu2(n_),
+                          P_ż_mu3(n_),
+                          P_ż_mu4(n_),
+                          P_ż_mu5(n_),
+                          P_ż_mu6(n_)),
+              max(P_ż_mu1(n_),
+                  P_ż_mu2(n_),
+                  P_ż_mu3(n_),
+                  P_ż_mu4(n_),
+                  P_ż_mu5(n_),
+                  P_ż_mu6(n_)) + 0.001)
+    
+    plot(P_ż_mu1, from = 0, to = n_,
+         xaxt = "n", ylim = ylim_, lwd = 2,
+         type = "l", xlab = xlab_, ylab = ylab_, col = "black")
+    axis(1, at = c(0,1,2,5,10,20,30,40,50,60,70,80,90,100), 
+         labels = c(0,1,2,5,10,20,30,40,50,60,70,80,90,100))
+    title(title_)
+    curve(P_ż_mu2,from = 0, to = n_, add = TRUE, col = colors[1], lwd = 2,)
+    curve(P_ż_mu3,from = 0, to = n_, add = TRUE, col = colors[2], lwd = 2,)
+    curve(P_ż_mu4,from = 0, to = n_, add = TRUE, col = colors[3], lwd = 2,)
+    curve(P_ż_mu5,from = 0, to = n_, add = TRUE, col = colors[4], lwd = 2,)
+    curve(P_ż_mu6,from = 0, to = n_, add = TRUE, col = colors[5], lwd = 2,)
+    legend(0, 0, 
+           legend = c(paste0("mu = ", mu1),
+                      paste0("mu = ", mu2),
+                      paste0("mu = ", mu3),
+                      paste0("mu = ", mu4),
+                      paste0("mu = ", mu5),
+                      paste0("mu = ", mu6)),
+           fill = c("black",colors[1],colors[2],colors[3],colors[4],colors[5]))
 }
+
+
+
+### Różne mu w zależności od (n) ####
+
+{
+    title_ = "Składka netto w ubezpieczeniu na życie i dożycie dla x latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości mu\nw rozkładzie wykładnicznym dla i = 0.05"
+    ylim_ = c(0,1)
+    ylab_ = "Wartość składki netto"
+    xlab_ = "Okres ubezpieczenia (n)"
+    
+    i_ = 0.05
+    x_ = 20
+    n_ = 20
+    mu1 = 0.01
+    mu2 = 0.02
+    mu3 = 0.04
+    mu4 = 0.06
+    mu5 = 0.08
+    mu6 = 0.10
+    
+    
+    JSN_żdż_mu1 = function(n) {i = i_; x = x_; mu = mu1;((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n))}
+    JSN_żdż_mu2 = function(n) {i = i_; x = x_; mu = mu2;((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n))}
+    JSN_żdż_mu3 = function(n) {i = i_; x = x_; mu = mu3;((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n))}
+    JSN_żdż_mu4 = function(n) {i = i_; x = x_; mu = mu4;((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n))}
+    JSN_żdż_mu5 = function(n) {i = i_; x = x_; mu = mu5;((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n))}
+    JSN_żdż_mu6 = function(n) {i = i_; x = x_; mu = mu6;((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n))}
+    
+    renta_terminowa_mu1 = function(n) {i = i_; mu = mu1; (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n)))) / log(1 + i)}
+    renta_terminowa_mu2 = function(n) {i = i_; mu = mu2; (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n)))) / log(1 + i)}
+    renta_terminowa_mu3 = function(n) {i = i_; mu = mu3; (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n)))) / log(1 + i)}
+    renta_terminowa_mu4 = function(n) {i = i_; mu = mu4; (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n)))) / log(1 + i)}
+    renta_terminowa_mu5 = function(n) {i = i_; mu = mu5; (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n)))) / log(1 + i)}
+    renta_terminowa_mu6 = function(n) {i = i_; mu = mu6; (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n)))) / log(1 + i)}
+    
+    
+    P_żdż_mu1 = function(n) {JSN_żdż_mu1(n) / renta_terminowa_mu1(n)}
+    P_żdż_mu2 = function(n) {JSN_żdż_mu2(n) / renta_terminowa_mu2(n)}
+    P_żdż_mu3 = function(n) {JSN_żdż_mu3(n) / renta_terminowa_mu3(n)}
+    P_żdż_mu4 = function(n) {JSN_żdż_mu4(n) / renta_terminowa_mu4(n)}
+    P_żdż_mu5 = function(n) {JSN_żdż_mu5(n) / renta_terminowa_mu5(n)}
+    P_żdż_mu6 = function(n) {JSN_żdż_mu6(n) / renta_terminowa_mu6(n)}
+
+    
+    plot(P_żdż_mu1, from = 0, to = n_,
+         xaxt = "n", ylim = ylim_, lwd = 2,
+         type = "l", xlab = xlab_, ylab = ylab_, col = "black")
+    axis(1, at = c(0,1,2,5,10,20,30,40,50,60,70,80,90,100), 
+         labels = c(0,1,2,5,10,20,30,40,50,60,70,80,90,100))
+    title(title_)
+    curve(P_żdż_mu2,from = 0, to = n_, add = TRUE, col = colors[1], lwd = 2,)
+    curve(P_żdż_mu3,from = 0, to = n_, add = TRUE, col = colors[2], lwd = 2,)
+    curve(P_żdż_mu4,from = 0, to = n_, add = TRUE, col = colors[3], lwd = 2,)
+    curve(P_żdż_mu5,from = 0, to = n_, add = TRUE, col = colors[4], lwd = 2,)
+    curve(P_żdż_mu6,from = 0, to = n_, add = TRUE, col = colors[5], lwd = 2,)
+    legend(10, 1, 
+           legend = c(paste0("mu = ", mu1),
+                      paste0("mu = ", mu2),
+                      paste0("mu = ", mu3),
+                      paste0("mu = ", mu4),
+                      paste0("mu = ", mu5),
+                      paste0("mu = ", mu6)),
+           fill = c("black",colors[1],colors[2],colors[3],colors[4],colors[5]))
+}
+
+
+
+### Różne i w zależności od (n) ####
+
+
+{
+    title_ = "Składka netto w ubezpieczeniu na życie i dożycie dla x latka w zależności\nod długości okresu ubezpieczenia (n) dla różnych wartości mu\nw rozkładzie wykładnicznym z mu = 0.05"
+    ylim_ = c(0,1)
+    ylab_ = "Wartość składki netto"
+    xlab_ = "Okres ubezpieczenia (n)"
+    
+    mu = 0.05
+    x_ = 20
+    n_ = 20
+    i1 = 0.01
+    i2 = 0.05
+    i3 = 0.10
+    i4 = 0.20
+    
+    
+    JSN_żdż_i1 = function(n) {i = i1; x = x_; mu = mu_;((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n))}
+    JSN_żdż_i2 = function(n) {i = i2; x = x_; mu = mu_;((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n))}
+    JSN_żdż_i3 = function(n) {i = i3; x = x_; mu = mu_;((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n))}
+    JSN_żdż_i4 = function(n) {i = i4; x = x_; mu = mu_;((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n))}
+    
+    renta_terminowa_i1 = function(n) {i = i1; mu = mu_; (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n)))) / log(1 + i)}
+    renta_terminowa_i2 = function(n) {i = i2; mu = mu_; (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n)))) / log(1 + i)}
+    renta_terminowa_i3 = function(n) {i = i3; mu = mu_; (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n)))) / log(1 + i)}
+    renta_terminowa_i4 = function(n) {i = i4; mu = mu_; (1 - (((1 - exp(-(log(1 + i) + mu) * n)) * mu) / (log(1 + i) + mu) + (exp(-(log(1 + i) + mu) * n)))) / log(1 + i)}
+    
+    P_żdż_i1 = function(n) {JSN_żdż_i1(n) / renta_terminowa_i1(n)}
+    P_żdż_i2 = function(n) {JSN_żdż_i2(n) / renta_terminowa_i2(n)}
+    P_żdż_i3 = function(n) {JSN_żdż_i3(n) / renta_terminowa_i3(n)}
+    P_żdż_i4 = function(n) {JSN_żdż_i4(n) / renta_terminowa_i4(n)}
+    
+    
+    plot(P_żdż_i1, from = 0, to = n_,
+         xaxt = "n", ylim = ylim_, lwd = 2,
+         type = "l", xlab = xlab_, ylab = ylab_, col = "black")
+    axis(1, at = c(0,1,2,5,10,20,30,40,50,60,70,80,90,100), 
+         labels = c(0,1,2,5,10,20,30,40,50,60,70,80,90,100))
+    title(title_)
+    curve(P_żdż_i2,from = 0, to = n_, add = TRUE, col = colors[1], lwd = 2,)
+    curve(P_żdż_i3,from = 0, to = n_, add = TRUE, col = colors[2], lwd = 2,)
+    curve(P_żdż_i4,from = 0, to = n_, add = TRUE, col = colors[3], lwd = 2,)
+    legend(10, 1, 
+           legend = c(paste0("i = ", i1),
+                      paste0("i = ", i2),
+                      paste0("i = ", i3),
+                      paste0("i = ", i4)),
+           fill = c("black",colors[1],colors[2],colors[3]))
+}
+
+
+
 
 
 # ZADANIE 5 ####
-
 
 
